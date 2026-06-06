@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Portal - Mini Library Shop</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <h1>⚙️ Admin Portal</h1>
+            <nav>
+                <a href="index.html">Home</a>
+                <a href="admin.html">Admin Portal</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        
+        <!-- Statistics Section -->
+        <section class="admin-stats">
+            <div class="stat-card">
+                <h3>Total Books</h3>
+                <p id="stat-total-books">0</p>
+            </div>
+            <div class="stat-card">
+                <h3>Total Orders</h3>
+                <p id="stat-total-orders">0</p>
+            </div>
+            <div class="stat-card">
+                <h3>Best Selling Book</h3>
+                <p id="stat-best-seller">-</p>
+            </div>
+            <div class="stat-card">
+                <h3>Most Popular Author</h3>
+                <p id="stat-popular-author">-</p>
+            </div>
+        </section>
+
+        <div style="text-align: right; margin-bottom: 20px;">
+            <button id="reset-data-btn" style="background-color: #e74c3c; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">Reset Demo Data</button>
+        </div>
+
+        <!-- Add New Book Form -->
+        <section class="admin-form-section">
+            <h2>Add New Book</h2>
+            <form id="add-book-form">
+                <input type="text" id="new-title" placeholder="Book Title" required>
+                <input type="text" id="new-author" placeholder="Author Name" required>
+                <input type="number" id="new-price" placeholder="Price ($)" step="0.01" required>
+                <input type="number" id="new-stock" placeholder="Initial Stock" required>
+                <select id="new-category" required>
+                    <option value="" disabled selected>Select Category</option>
+                    <option value="Fiction">Fiction</option>
+                    <option value="Non-Fiction">Non-Fiction</option>
+                    <option value="Science">Science</option>
+                    <option value="History">History</option>
+                </select>
+                <input type="url" id="new-image" placeholder="Image URL (e.g. https://picsum.photos/200/300)" class="full-width">
+                <textarea id="new-description" placeholder="Short Description" class="full-width" required></textarea>
+                <button type="submit" class="btn-save">Add Book to Shop</button>
+            </form>
+        </section>
+
+        <!-- Current Inventory List -->
+        <section class="inventory-section">
+            <h2>Current Inventory</h2>
+            <div class="book-list" id="admin-book-list">
+                <!-- Books will be listed here -->
+            </div>
+        </section>
+
+    </main>
+
+    <script src="admin.js"></script>
+</body>
+</html>

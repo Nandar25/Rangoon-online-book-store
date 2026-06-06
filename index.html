@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rangoon online book store</title>
+    <!-- Link to our CSS file for styling -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Header Section -->
+    <header>
+        <div class="container">
+            <h1>📚 Rangoon online book store</h1>
+            <nav>
+                <a href="index.html">Home</a>
+                <a href="admin.html">Admin Portal</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- Search and Filter Section -->
+        <section class="controls">
+            <input type="text" id="search-input" placeholder="Search by title or author...">
+            <select id="category-filter">
+                <option value="all">All Categories</option>
+                <option value="Fiction">Fiction</option>
+                <option value="Non-Fiction">Non-Fiction</option>
+                <option value="Science">Science</option>
+                <option value="History">History</option>
+            </select>
+        </section>
+
+        <div class="shop-layout">
+            <!-- Book List Section -->
+            <section class="book-list" id="book-list">
+                <!-- Books will be injected here by JavaScript -->
+                <p>Loading books...</p>
+            </section>
+
+            <!-- Shopping Basket Section -->
+            <aside class="basket" id="basket">
+                <h2>Your Basket</h2>
+                <div id="basket-items">
+                    <p>Your basket is empty.</p>
+                </div>
+                <div class="basket-total">
+                    <strong>Total: $<span id="total-price">0.00</span></strong>
+                </div>
+                
+                <!-- Checkout Form -->
+                <div id="checkout-section" style="display: none;">
+                    <h3>Checkout</h3>
+                    <form id="checkout-form">
+                        <input type="text" id="cust-name" placeholder="Full Name" required>
+                        <input type="email" id="cust-email" placeholder="Email Address" required>
+                        <textarea id="cust-address" placeholder="Shipping Address" required></textarea>
+                        <button type="submit" class="btn-checkout">Place Order</button>
+                    </form>
+                </div>
+            </aside>
+        </div>
+    </main>
+
+    <!-- Order Confirmation Modal -->
+    <div id="confirmation-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" id="close-modal">&times;</span>
+            <h2>Order Confirmed! 🎉</h2>
+            <p id="confirmation-message"></p>
+            <button id="modal-ok-button">Great!</button>
+        </div>
+    </div>
+
+    <!-- Link to our JavaScript file for behavior -->
+    <script src="script.js"></script>
+</body>
+</html>
