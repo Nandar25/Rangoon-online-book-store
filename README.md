@@ -4,7 +4,7 @@
 
 Rangoon-online-book-store is a browser-based web application that simulates an online book store. Users can browse available books, add items to their basket, and place orders through a checkout form. The project also includes an admin portal that allows book inventory management and sales tracking.
 
-This project was built to strengthen my understanding of front-end web development using HTML, CSS, and JavaScript.
+This project was built to strengthen my understanding of front-end web development using HTML, CSS, and JavaScript. 
 
 ---
 
@@ -87,10 +87,10 @@ Potential enhancements for future versions include:
 
 How to Run the Project
 
-Clone the repository: https://github.com/Nandar25/Rangoon-online-book-store.git
-Go into the Rangoon-online-book-store.git App:
-Install dependencies:
-Run the app:
+* Clone the repository: https://github.com/Nandar25/Rangoon-online-book-store.git
+* Go into the Rangoon-online-book-store.git App:
+* Install dependencies:
+* Run the app:
 
 ---
 
