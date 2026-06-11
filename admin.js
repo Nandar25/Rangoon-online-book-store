@@ -1,32 +1,15 @@
-/**
- * admin.js
- * This file handles the logic for the Admin Portal.
- * It allows adding new books and calculates simple statistics.
- */
-
-// --- 1. STATE ---
 let books = [];
 let orders = [];
 
-// --- 2. DOM ELEMENTS ---
 const addBookForm = document.getElementById('add-book-form');
 const adminBookList = document.getElementById('admin-book-list');
 const resetDataButton = document.getElementById('reset-data-btn');
 
-// Stats Elements
 const statTotalBooks = document.getElementById('stat-total-books');
 const statTotalOrders = document.getElementById('stat-total-orders');
 const statBestSeller = document.getElementById('stat-best-seller');
 const statPopularAuthor = document.getElementById('stat-popular-author');
 
-// --- 3. FUNCTIONS ---
-
-// --------------------------------------------------
-// STEP 1: Load data
-// --------------------------------------------------
-/**
- * Loads data from localStorage.
- */
 function loadAdminData() {
     console.log("Admin Portal: Loading data...");
     
@@ -44,22 +27,13 @@ function loadAdminData() {
     renderInventory();
 }
 
-// --------------------------------------------------
-// STEP 2: Calculate Statistics
-// --------------------------------------------------
-/**
- * Calculates and displays simple business statistics.
- */
 function calculateStats() {
     console.log("Calculating statistics...");
     
-    // 1. Total Books
     statTotalBooks.innerText = books.length;
     
-    // 2. Total Orders
     statTotalOrders.innerText = orders.length;
     
-    // 3. Best Selling Book
     if (books.length > 0) {
         let bestSeller = books[0];
         books.forEach(book => {
@@ -70,8 +44,6 @@ function calculateStats() {
         statBestSeller.innerText = bestSeller.soldCount > 0 ? bestSeller.title : "No sales yet";
     }
     
-    // 4. Most Popular Author (Based on total sales)
-    // TEACHING NOTE: We use an object to sum up sales for each author.
     if (books.length > 0) {
         const authorSales = {};
         
@@ -79,8 +51,6 @@ function calculateStats() {
             const author = book.author;
             const sales = book.soldCount || 0;
             
-            // If author is already in our object, add to their total.
-            // If not, start at current book's sales.
             authorSales[author] = (authorSales[author] || 0) + sales;
         });
         
@@ -94,17 +64,10 @@ function calculateStats() {
             }
         }
         
-        // Only show if there are actual sales
         statPopularAuthor.innerText = maxSales > 0 ? popularAuthor : "No sales yet";
     }
 }
 
-// --------------------------------------------------
-// STEP 3: Show Inventory
-// --------------------------------------------------
-/**
- * Displays the current books in the admin view.
- */
 function renderInventory() {
     console.log("Rendering inventory list...");
     adminBookList.innerHTML = '';
@@ -112,7 +75,6 @@ function renderInventory() {
     books.forEach(book => {
         const bookDiv = document.createElement('div');
         bookDiv.className = 'book-card';
-        // TEACHING NOTE: Using data-id for the delete button
         bookDiv.innerHTML = `
             <img src="${book.image}" alt="${book.title}" referrerPolicy="no-referrer">
             <h3>${book.title}</h3>
@@ -126,13 +88,6 @@ function renderInventory() {
     });
 }
 
-// --------------------------------------------------
-// STEP 4: Add New Book
-// --------------------------------------------------
-
-/**
- * Validates the new book form.
- */
 function validateBookForm(title, author, price, stock) {
     if (title.trim() === "") {
         alert("Book title cannot be empty.");
@@ -153,9 +108,6 @@ function validateBookForm(title, author, price, stock) {
     return true;
 }
 
-/**
- * Adds a new book to the list.
- */
 function addNewBook(event) {
     event.preventDefault();
     console.log("Adding new book...");
@@ -168,10 +120,8 @@ function addNewBook(event) {
     const description = document.getElementById('new-description').value;
     const image = document.getElementById('new-image').value || "https://picsum.photos/seed/book/200/300";
     
-    // 1. Validate
     if (!validateBookForm(title, author, price, stock)) return;
 
-    // 2. Create object
     const newBook = {
         id: Date.now(),
         title: title,
@@ -184,21 +134,16 @@ function addNewBook(event) {
         soldCount: 0
     };
     
-    // 3. Save
     books.push(newBook);
     localStorage.setItem('bookstore_books', JSON.stringify(books));
     console.log("New book added:", newBook);
     
-    // 4. Update UI
     addBookForm.reset();
     calculateStats();
     renderInventory();
     alert(`"${title}" has been added to the shop!`);
 }
 
-/**
- * Deletes a book from the inventory.
- */
 function deleteBook(bookId) {
     const bookToDelete = books.find(b => b.id === bookId);
     if (confirm(`Are you sure you want to delete "${bookToDelete ? bookToDelete.title : 'this book'}"?`)) {
@@ -211,12 +156,6 @@ function deleteBook(bookId) {
     }
 }
 
-// --------------------------------------------------
-// STEP 5: Reset Demo Data
-// --------------------------------------------------
-/**
- * Resets the entire app to its original state.
- */
 function resetDemoData() {
     if (confirm("This will delete all your custom books, orders, and basket. Are you sure?")) {
         console.log("Resetting demo data...");
@@ -226,14 +165,8 @@ function resetDemoData() {
     }
 }
 
-// --------------------------------------------------
-// STEP 6: Event Listeners
-// --------------------------------------------------
-
-// Handle form submission
 addBookForm.addEventListener('submit', addNewBook);
 
-// Listen for clicks on the inventory list (Event Delegation)
 adminBookList.addEventListener('click', (event) => {
     if (event.target.classList.contains('delete-book-btn')) {
         const bookId = parseInt(event.target.getAttribute('data-id'));
@@ -241,10 +174,8 @@ adminBookList.addEventListener('click', (event) => {
     }
 });
 
-// Reset button
 if (resetDataButton) {
     resetDataButton.addEventListener('click', resetDemoData);
 }
 
-// --- 7. INITIALIZE ---
 loadAdminData();

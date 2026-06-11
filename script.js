@@ -1,12 +1,3 @@
-/**
- * script.js
- * This file handles the behavior of the customer-facing bookstore page.
- * It manages the book list, search, filtering, and the shopping basket.
- */
-
-// --- 1. INITIAL DATA ---
-// We start with some sample books. 
-// In a real app, these might come from a database.
 const initialBooks = [
     {
         id: 1,
@@ -25,7 +16,7 @@ const initialBooks = [
         author: "Jane Smith",
         price: 29.99,
         category: "Science",
-        description: "A beginner-friendly guide to modern web development.",
+        description: "A practical guide to modern web development.",
         image: "https://picsum.photos/seed/js/200/300",
         soldCount: 42,
         stock: 10
@@ -120,13 +111,9 @@ const initialBooks = [
     }
 ];
 
-// --- 2. STATE MANAGEMENT ---
-// "State" is the current data our app is using.
 let books = [];
 let basket = [];
 
-// --- 3. DOM ELEMENTS ---
-// We "select" elements from the HTML so we can talk to them in JavaScript.
 const bookListElement = document.getElementById('book-list');
 const basketItemsElement = document.getElementById('basket-items');
 const totalPriceElement = document.getElementById('total-price');
@@ -139,16 +126,8 @@ const confirmationMessage = document.getElementById('confirmation-message');
 const closeModalButton = document.getElementById('close-modal');
 const modalOkButton = document.getElementById('modal-ok-button');
 
-// --- 4. FUNCTIONS ---
-
-// --------------------------------------------------
-// STEP 1: Load saved data
-// --------------------------------------------------
-/**
- * Loads books from localStorage or uses the initial list.
- */
 function loadData() {
-    console.log("STEP 1: Loading data...");
+    console.log("Loading data...");
     
     const savedBooks = localStorage.getItem('bookstore_books');
     if (savedBooks) {
@@ -170,15 +149,8 @@ function loadData() {
     renderBasket();
 }
 
-// --------------------------------------------------
-// STEP 2: Show books on screen
-// --------------------------------------------------
-/**
- * Displays the list of books on the page.
- * @param {Array} booksToRender - The list of books to show.
- */
 function renderBooks(booksToRender) {
-    console.log("STEP 2: Rendering books on screen...");
+    console.log("Rendering books on screen...");
     bookListElement.innerHTML = '';
 
     if (booksToRender.length === 0) {
@@ -190,8 +162,6 @@ function renderBooks(booksToRender) {
         const bookCard = document.createElement('div');
         bookCard.className = 'book-card';
         
-        // TEACHING NOTE: We use data-id instead of inline onclick.
-        // This keeps our HTML clean and our logic in JavaScript.
         bookCard.innerHTML = `
             <img src="${book.image}" alt="${book.title}" referrerPolicy="no-referrer">
             <span class="category">${book.category}</span>
@@ -209,19 +179,11 @@ function renderBooks(booksToRender) {
     });
 }
 
-// --------------------------------------------------
-// STEP 3: Update basket
-// --------------------------------------------------
-/**
- * Adds a book to the shopping basket.
- * @param {number} bookId - The ID of the book to add.
- */
 function addToBasket(bookId) {
     const bookToAdd = books.find(b => b.id === bookId);
     const existingItem = basket.find(item => item.id === bookId);
     const currentQtyInBasket = existingItem ? existingItem.quantity : 0;
 
-    // Check if there is enough stock
     if (bookToAdd.stock <= currentQtyInBasket) {
         alert(`Sorry, we only have ${bookToAdd.stock} copies of "${bookToAdd.title}" in stock.`);
         return;
@@ -240,9 +202,6 @@ function addToBasket(bookId) {
     renderBasket();
 }
 
-/**
- * Updates the basket display and calculates the total price.
- */
 function renderBasket() {
     console.log("Updating basket display...");
     basketItemsElement.innerHTML = '';
@@ -261,7 +220,6 @@ function renderBasket() {
         
         const itemDiv = document.createElement('div');
         itemDiv.className = 'basket-item';
-        // TEACHING NOTE: We use data-id and data-change for controls.
         itemDiv.innerHTML = `
             <div class="basket-item-info">
                 <h4>${item.title}</h4>
@@ -281,9 +239,6 @@ function renderBasket() {
     checkoutSection.style.display = 'block';
 }
 
-/**
- * Changes the quantity of an item in the basket.
- */
 function updateQuantity(bookId, change) {
     const item = basket.find(i => i.id === bookId);
     const book = books.find(b => b.id === bookId);
@@ -306,9 +261,6 @@ function updateQuantity(bookId, change) {
     }
 }
 
-/**
- * Removes an item entirely from the basket.
- */
 function removeFromBasket(bookId) {
     const itemToRemove = basket.find(item => item.id === bookId);
     basket = basket.filter(item => item.id !== bookId);
@@ -317,19 +269,10 @@ function removeFromBasket(bookId) {
     renderBasket();
 }
 
-/**
- * Saves the current basket to localStorage.
- */
 function saveBasket() {
     localStorage.setItem('bookstore_basket', JSON.stringify(basket));
 }
 
-// --------------------------------------------------
-// STEP 4: Search and Filter
-// --------------------------------------------------
-/**
- * Filters the books based on search text and category.
- */
 function filterBooks() {
     const searchTerm = searchInput.value.toLowerCase().trim();
     const selectedCategory = categoryFilter.value;
@@ -346,15 +289,7 @@ function filterBooks() {
     renderBooks(filtered);
 }
 
-// --------------------------------------------------
-// STEP 5: Checkout Logic (Broken into small functions)
-// --------------------------------------------------
-
-/**
- * Validates the checkout form data.
- */
 function validateCheckoutForm(name, email, address) {
-    // TEACHING NOTE: Simple validation using trim() and includes()
     if (name.trim() === "") {
         alert("Please enter your full name.");
         return false;
@@ -370,16 +305,13 @@ function validateCheckoutForm(name, email, address) {
     return true;
 }
 
-/**
- * Saves the order to localStorage.
- */
 function saveOrder(name, email, total) {
     const orders = JSON.parse(localStorage.getItem('bookstore_orders') || '[]');
     const newOrder = {
         id: Date.now(),
         customer: name,
         email: email,
-        items: [...basket], // Create a copy of the basket
+        items: [...basket],
         total: total,
         date: new Date().toISOString()
     };
@@ -388,9 +320,6 @@ function saveOrder(name, email, total) {
     console.log("Order saved successfully:", newOrder);
 }
 
-/**
- * Updates the stock and sold counts for books.
- */
 function updateBookStock() {
     basket.forEach(item => {
         const book = books.find(b => b.id === item.id);
@@ -403,17 +332,11 @@ function updateBookStock() {
     renderBooks(books);
 }
 
-/**
- * Shows the order confirmation modal.
- */
 function showOrderConfirmation(name, email, total) {
     confirmationMessage.innerText = `Thank you, ${name}! Your order for $${total.toFixed(2)} has been placed. We've sent a confirmation to ${email}.`;
     confirmationModal.style.display = 'block';
 }
 
-/**
- * Clears the basket after a successful order.
- */
 function clearBasket() {
     basket = [];
     saveBasket();
@@ -422,9 +345,6 @@ function clearBasket() {
     console.log("Basket cleared after order.");
 }
 
-/**
- * Main function to handle the checkout process.
- */
 function handleCheckout(event) {
     event.preventDefault();
     console.log("Processing checkout...");
@@ -434,36 +354,21 @@ function handleCheckout(event) {
     const address = document.getElementById('cust-address').value;
     const total = parseFloat(totalPriceElement.innerText);
 
-    // 1. Validate
     if (!validateCheckoutForm(name, email, address)) return;
 
-    // 2. Save Order
     saveOrder(name, email, total);
-
-    // 3. Update Stock
     updateBookStock();
-
-    // 4. Show Confirmation
     showOrderConfirmation(name, email, total);
-
-    // 5. Clear Basket
     clearBasket();
 }
 
-// --------------------------------------------------
-// STEP 6: Listen for user actions (Event Delegation)
-// --------------------------------------------------
-
-// Listen for clicks on the book list (Event Delegation)
 bookListElement.addEventListener('click', (event) => {
-    // Check if the clicked element is an "Add to Basket" button
     if (event.target.classList.contains('btn-add')) {
         const bookId = parseInt(event.target.getAttribute('data-id'));
         addToBasket(bookId);
     }
 });
 
-// Listen for clicks on the basket items
 basketItemsElement.addEventListener('click', (event) => {
     const target = event.target;
     const bookId = parseInt(target.getAttribute('data-id'));
@@ -476,19 +381,15 @@ basketItemsElement.addEventListener('click', (event) => {
     }
 });
 
-// Run filterBooks whenever the user types or changes category
 searchInput.addEventListener('input', filterBooks);
 categoryFilter.addEventListener('change', filterBooks);
 
-// Handle checkout form submission
 checkoutForm.addEventListener('submit', handleCheckout);
 
-// Modal controls
 closeModalButton.onclick = () => confirmationModal.style.display = 'none';
 modalOkButton.onclick = () => confirmationModal.style.display = 'none';
 window.onclick = (event) => {
     if (event.target === confirmationModal) confirmationModal.style.display = 'none';
 };
 
-// --- 7. INITIALIZE ---
 loadData();

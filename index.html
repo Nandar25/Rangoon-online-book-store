@@ -4,12 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rangoon online book store</title>
-    <!-- Link to our CSS file for styling -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <!-- Header Section -->
     <header>
         <div class="container">
             <h1>📚 Rangoon online book store</h1>
@@ -21,7 +19,6 @@
     </header>
 
     <main class="container">
-        <!-- Search and Filter Section -->
         <section class="controls">
             <input type="text" id="search-input" placeholder="Search by title or author...">
             <select id="category-filter">
@@ -34,13 +31,10 @@
         </section>
 
         <div class="shop-layout">
-            <!-- Book List Section -->
             <section class="book-list" id="book-list">
-                <!-- Books will be injected here by JavaScript -->
                 <p>Loading books...</p>
             </section>
 
-            <!-- Shopping Basket Section -->
             <aside class="basket" id="basket">
                 <h2>Your Basket</h2>
                 <div id="basket-items">
@@ -50,7 +44,6 @@
                     <strong>Total: $<span id="total-price">0.00</span></strong>
                 </div>
                 
-                <!-- Checkout Form -->
                 <div id="checkout-section" style="display: none;">
                     <h3>Checkout</h3>
                     <form id="checkout-form">
@@ -64,7 +57,6 @@
         </div>
     </main>
 
-    <!-- Order Confirmation Modal -->
     <div id="confirmation-modal" class="modal">
         <div class="modal-content">
             <span class="close-button" id="close-modal">&times;</span>
@@ -74,7 +66,6 @@
         </div>
     </div>
 
-    <!-- Link to our JavaScript file for behavior -->
     <script src="script.js"></script>
 </body>
 </html>
